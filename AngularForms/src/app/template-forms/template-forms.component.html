@@ -1,13 +1,115 @@
-<form novalidate>
+<form novalidate #form="ngForm">
     <div class="form-row">
+        <!-- Name -->
         <div class="col-md-4 mb-2">
-            <label for="name">nome</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="inserisci il nome" required minlength="2" [(ngModel)]="model.name">
+            <label for="name">Nome</label>
+            <input type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                placeholder="Inserisci il nome"
+                required
+                minlength="2"
+                [(ngModel)]="model.name"
+                #name="ngModel">
+            <p *ngIf="name.invalid && name.dirty"
+                [ngClass]="{'field-error': name.invalid && name.dirty}">
+                Formato del nome non valido
+            </p>
         </div>
 
+        <!-- Mail -->
         <div class="col-md-4 mb-2">
-            <label for="mail">email</label>
-            <input type="email" class="form-control" id="mail" name="mail" placeholder="inserisci l'indirizzo mail" required pattern="[a-z0-9._%+-]+@[a-z0-9-.]+\.[a-z]{2,}$" [(ngModel)]="model.name">
+            <label for="mail">E-Mail</label>
+            <input type="email"
+                class="form-control"
+                id="mail"
+                name="mail"
+                placeholder="Inserisci l'indirizzo mail"
+                required
+                pattern="[a-z0-9._%+-]+@[a-z0-9-.]+\.[a-z]{2,}$"
+                [(ngModel)]="model.mail">
+        </div>
+
+        <!-- Day of the week -->
+        <div class="col-md-4 mb-2">
+            <label for="dayOfTheWeek">Giorno della settimana</label>
+            <select name="dayOfTheWeek" id="dayOfTheWeek"
+                class="form-control"
+                [(ngModel)]="model.dayOfTheWeek">
+                <option *ngFor="let day of daysOfTheWeek"
+                    [value]="day">{{ day }}</option>
+            </select>
         </div>
     </div>
+
+    <!-- Radio button degli office -->
+    <div class="form-row mt-3 mb-3">
+        <div class="form-check form-check-inline"
+            *ngFor="let office of availableOffices">
+            <input type="radio"
+                name="office"
+                id="office-{{office.id}}"
+                class="form-check-input"
+                value="{{office.name}}"
+                [(ngModel)]="model.office">
+            <label for="office-{{office.id}}"
+                class="form-check-label">Ufficio {{office.id}}</label>
+        </div>
+    </div>
+
+    <div class="form-row mt-3 mb-3">
+        <div class="form-check form-check-inline">
+            <input type="checkbox"
+                name="application0"
+                id="application0"
+                class="form-check-input"
+                value="richiesta_0"
+                [(ngModel)]="model['application0']">
+            <label for="application0" class="form-check-label">
+                Richiesta 0
+            </label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="checkbox"
+                name="application1"
+                id="application1"
+                class="form-check-input"
+                value="richiesta_1"
+                [(ngModel)]="model['application1']">
+            <label for="application1" class="form-check-label">
+                Richiesta 1
+            </label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input type="checkbox"
+                name="application2"
+                id="application2"
+                class="form-check-input"
+                value="richiesta_2"
+                [(ngModel)]="model['application2']">
+            <label for="application2" class="form-check-label">
+                Richiesta 2
+            </label>
+        </div>
+    </div>
+
+    <!-- Buttons di submit and reset -->
+    <div class="form-row">
+        <button type="submit" class="w-25 ml-2 mr-2 btn ">
+            Prenota
+        </button>
+        <button type="reset" class="btn btn-danger w-25 ml-2 mr-2">Reset</button>
+    </div>
 </form>
+
+<div class="bg-light text-primary mt-3 mb-3">
+    <pre>
+        dirty = {{ form.form.controls["name"].dirty }}
+        pristine = {{ form.form.controls["name"].pristine }}
+        touched = {{ form.form.controls["name"].touched }}
+        untouched = {{ form.form.controls["name"].untouched }}
+        valid = {{ form.form.controls["name"].valid }}
+        invalid = {{ form.form.controls["name"].invalid }}
+    </pre>
+</div>
