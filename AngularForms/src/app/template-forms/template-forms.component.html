@@ -16,6 +16,14 @@
                 [ngClass]="{'field-error': name.invalid && name.dirty}">
                 Formato del nome non valido
             </p>
+            <div *ngIf="name.errors && name.dirty" class="field-error">
+                <p *ngIf="name.errors['minlength']">
+                    formato nome non valido
+                </p>
+                <p *ngIf="name.errors['required']">
+                    campo obbligatorio
+                </p>
+            </div>
         </div>
 
         <!-- Mail -->
@@ -28,7 +36,20 @@
                 placeholder="Inserisci l'indirizzo mail"
                 required
                 pattern="[a-z0-9._%+-]+@[a-z0-9-.]+\.[a-z]{2,}$"
-                [(ngModel)]="model.mail">
+                [(ngModel)]="model.mail"
+                #mail="ngModel"
+                [ngClass]="{
+                    'is-invalid': mail.invalid && mail.dirty,
+                    'is-valid': mail.valid && mail.dirty
+                }">
+            <div *ngIf="mail.errors && mail.dirty"  class="invalid-feedback">
+                <p *ngIf="mail.errors['pattern']">
+                    formato email non valido
+                </p>
+                <p *ngIf="mail.errors['required']">
+                    campo obbligatorio
+                </p>
+            </div>
         </div>
 
         <!-- Day of the week -->
@@ -96,14 +117,21 @@
 
     <!-- Buttons di submit and reset -->
     <div class="form-row">
-        <button type="submit" class="w-25 ml-2 mr-2 btn ">
+        <button type="submit" class="w-25 ml-2 mr-2 btn "
+            [ngClass]="{
+                'btn-secondary': form.invalid,
+                'btn-success': form.valid
+            }"
+            [disabled]="form.invalid">
             Prenota
         </button>
         <button type="reset" class="btn btn-danger w-25 ml-2 mr-2">Reset</button>
+        <button type="reset" class="btn btn-warning w-25 ml-2 mr-2" (click)="form.reset()">Reset angular</button>
     </div>
 </form>
 
 <div class="bg-light text-primary mt-3 mb-3">
+    <h3>proprietà del campo name</h3>
     <pre>
         dirty = {{ form.form.controls["name"].dirty }}
         pristine = {{ form.form.controls["name"].pristine }}
@@ -113,3 +141,6 @@
         invalid = {{ form.form.controls["name"].invalid }}
     </pre>
 </div>
+
+<div class="bg-dark mt-4 bm-4 text-white"><pre><code>{{ form.value | json}}</code></pre></div>
+<div class="bg-dark mt-4 bm-4 text-white"><pre><code>{{ model | json}}</code></pre></div>
