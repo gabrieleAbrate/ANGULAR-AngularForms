@@ -1,1 +1,103 @@
-<p>reactive-forms works!</p>
+<form novalidate [formGroup]="reactiveForm">
+    <div class="form-row">
+        <!-- Name -->
+        <div class="col-md-4 mb-2">
+            <label for="name">Nome</label>
+            <input type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                placeholder="Inserisci il nome"
+                formControlName=""name
+                >
+        </div>
+
+        <!-- Mail -->
+        <div class="col-md-4 mb-2">
+            <label for="mail">E-Mail</label>
+            <input type="email"
+                class="form-control"
+                id="mail"
+                name="mail"
+                placeholder="Inserisci l'indirizzo mail"
+                formControlName="mail"
+                [ngClass]="{
+                    'is-invalid': reactiveForm.controls['mail'].invalid &&
+                                  reactiveForm.controls['mail'].dirty,
+                    'is-valid': reactiveForm.controls['mail'].valid &&
+                                reactiveForm.controls['mail'].dirty
+                }"
+                formControlName="mail"
+                >
+            <div *ngIf="reactiveForm.controls['mail'].errors &&
+                        reactiveForm.controls['mail'].dirty"
+                        class="invalid-feedback">
+                <p *ngIf="reactiveForm.controls['mail'].errors['pattern']">
+                    formato email non valido
+                </p>
+                <p *ngIf="reactiveForm.controls['mail'].errors['required']">
+                    campo obbligatorio
+                </p>
+            </div>
+        </div>
+
+        <!-- Day of the week -->
+        <div class="col-md-4 mb-2">
+            <label for="dayOfTheWeek">Giorno della settimana</label>
+            <select name="dayOfTheWeek" id="dayOfTheWeek"
+                class="form-control"
+                formControlName="dayOfTheWeek">
+                <option *ngFor="let day of daysOfTheWeek"
+                    [value]="day">{{ day }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row" formGroupName="fullAddress">
+        <div class="col-md-4 mb-2">
+            <label for="address">indirizzo</label>
+            <input type="text" 
+                   class="form-control"
+                   id="address"
+                   name="address"
+                   placeholder="Inserisci l'indirizzo"
+                   formControlName="address">
+        </div>
+
+        <div class="col-md-4 mb-2">
+            <label for="city">città</label>
+            <input type="text" 
+                   class="form-control"
+                   id="city"
+                   name="city"
+                   placeholder="Inserisci la città"
+                   formControlName="city">
+        </div>
+
+        <div class="col-md-4 mb-2">
+            <label for="zipCode">CAP</label>
+            <input type="text" 
+                   class="form-control"
+                   id="zipCode"
+                   name="zipCode"
+                   placeholder="Inserisci CAP"
+                   formControlName="zipCode">
+        </div>
+    </div>
+
+    <div class="form-row mt-3 mb-3">
+        <div class="form-check form-check-inline"
+             *ngFor="let office of availableOffices">
+             <input type="radio"
+                    name="office"
+                    id="office-{{office.id}}"
+                    class="form-check-input"
+                    value="{{office.name}}"
+                    formControlName="office">
+            <label for="office-{{office.id}}" class="form-check-label">
+                ufficio {{office.id}}
+            </label>
+        </div>
+    </div>
+</form>
