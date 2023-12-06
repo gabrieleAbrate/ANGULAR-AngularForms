@@ -8,7 +8,7 @@
                 id="name"
                 name="name"
                 placeholder="Inserisci il nome"
-                formControlName=""name
+                formControlName="name"
                 >
         </div>
 
@@ -98,6 +98,70 @@
             <label for="office-{{office.id}}" class="form-check-label">
                 ufficio {{office.id}}
             </label>
+        </div>
+    </div>
+
+    <div class="form-row mt-3 mb-3">
+        <div class="form-check form-check-inline"
+            *ngFor="let application of applications"
+            formGroupName="applications">
+            <input type="checkbox"
+                name="application-{{application.id}}"
+                id="application-{{application.id}}"
+                class="form-check-input"
+                value="richieste_{{application.id}}"
+                formControlName="application_{{application.id}}">
+            <label for="application-{{application.id}}"
+                class="form-check-label">richiesta {{application.id}}</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <button type="submit"
+                    class="w-100 mt-3 mb-3 btn "
+                    [ngClass]="{
+                        'btn-secondary': reactiveForm.invalid,
+                        'btn-primary': reactiveForm.valid
+                    }"
+                    [disabled]="reactiveForm.invalid"
+                    (click)="sendData()">prenota</button>
+        </div>
+        <div class="col-sm-6">
+            <button type="reset" class="w-100 mt-3 mb-3 btn btn-danger">
+                reset form
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4 bg-warning">
+            <pre><code>
+                {{ reactiveForm.value | json }}
+            </code></pre>
+        </div>
+        <div class="col-sm-4 bg-light">
+            <pre><code>
+                <h3>status del form</h3>
+                status: {{ reactiveForm.status }}
+                valid: {{ reactiveForm.valid }}
+                invalid: {{ reactiveForm.invalid }}
+                pristine: {{ reactiveForm.pristine }}
+                dirty: {{ reactiveForm.dirty }}
+                touched: {{ reactiveForm.touched }}
+                untouched: {{ reactiveForm.untouched }}
+            </code></pre>
+        </div>
+        <div class="col-sm-4 bg-dark text-white">
+            <pre><code>
+                <h3>status del campo mail</h3>
+                valid: {{ reactiveForm.controls['mail'].valid }}
+                invalid: {{ reactiveForm.controls['mail'].invalid }}
+                pristine: {{ reactiveForm.controls['mail'].pristine }}
+                dirty: {{ reactiveForm.controls['mail'].dirty }}
+                touched: {{ reactiveForm.controls['mail'].touched }}
+                untouched: {{ reactiveForm.controls['mail'].untouched }}
+            </code></pre>
         </div>
     </div>
 </form>

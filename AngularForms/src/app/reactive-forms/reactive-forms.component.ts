@@ -56,4 +56,9 @@ export class ReactiveFormsComponent {
     {id:1},
     {id:2}
   ];
+
+  sendData() {
+    console.log(this.reactiveForm.controls['mail'].value);
+    console.log(this.reactiveForm.value);
+  }
 }
